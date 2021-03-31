@@ -1,8 +1,9 @@
 EAPI=7
 
 DESCRIPTION="A cross platform tablet driver"
-HOMEPAGE="https://github.com/OpenTabletDriver/OpenTabletDriver"
-SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/archive/refs/tags/v0.5.2.3.tar.gz"
+HOMEPAGE="https://github.com/OpenTabletDriver"
+#SRC_URI="https://github.com/OpenTabletDriver.git"
+SRC_URI="https://github.com/OpenTabletDriver/archive/refs/tags/v0.5.2.3.tar.gz"
 
 SLOT="0"
 KEYWORDS="~amd64"
@@ -16,3 +17,75 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 BDEPEND=""
+
+src_prepare() {
+    default
+}
+
+src_compile() {
+
+    dotnet publish        OpenTabletDriver.Daemon   \
+         --configuration   Release                   \
+         --framework       net5                      \
+         --runtime         linux-x64                 \
+         --self-contained  false                     \
+         --output          "./OpenTabletDriver/out"         \
+         /p:SuppressNETCoreSdkPreviewMessage=true    \
+         /p:PublishTrimmed=false
+
+    dotnet publish        OpenTabletDriver.Console  \
+         --configuration   Release                   \
+         --framework       net5                      \
+         --runtime         linux-x64                 \
+         --self-contained  false                     \
+         --output          "./OpenTabletDriver/out"         \
+         /p:SuppressNETCoreSdkPreviewMessage=true    \
+         /p:PublishTrimmed=false
+
+    dotnet publish        OpenTabletDriver.UX.Gtk   \
+         --configuration   Release                   \
+         --framework       net5                      \
+         --runtime         linux-x64                 \
+         --self-contained  false                     \
+         --output          "./OpenTabletDriver/out"         \
+         /p:SuppressNETCoreSdkPreviewMessage=true    \
+         /p:PublishTrimmed=false
+
+    cd "${S}/OpenTabletDriver-udev"
+    dotnet build          OpenTabletDriver.udev     \
+         --configuration   Release                   \
+         --framework       net5                      \
+         --runtime         linux-x64                 \
+         --output          "./OpenTabletDriver.udev/out"    \
+         /p:SuppressNETCoreSdkPreviewMessage=true
+
+     dotnet "./OpenTabletDriver.udev/out/OpenTabletDriver.udev.dll" \
+         "${S}/OpenTabletDriver/Configurations" \
+         "90-opentabletdriver.rules" > /dev/null
+}
+
+src_install() {
+    cd ${S}
+
+    install -do root "${S}/usr/share/OpenTabletDriver"
+
+     cd "${S}/OpenTabletDriver/out"
+     for binary in *.dll *.json *.pdb; do
+         install -Dm 755 -o root "$binary" -t "${S}/usr/share/OpenTabletDriver    "
+     done
+     cd "${S}"
+
+     sed -i "s/OTD_VERSION/0.5.2.3/" "OpenTabletDriver.desktop"
+
+     install -Dm 644 -o root "${S}/OpenTabletDriver-udev/90-opentabletdriver.rules"
+    -t "${S}/usr/lib/udev/rules.d"
+     install -Dm 644 -o root "${S}/OpenTabletDriver.UX/Assets/otd.png" -t "${S}/usr/share/pixmaps"
+     cp -r "${S}/OpenTabletDriver/Configurations" "${S}/usr/share/OpenTabletDriver/"
+
+     install -Dm 755 -o root "otd" -t "${S}/usr/bin"
+     install -Dm 755 -o root "otd-gui" -t "${S}/usr/bin"
+     #install -Dm 644 -o root "opentabletdriver.service" -t "${S}/usr/lib/systemd/user"
+     install -Dm 644 -o root "OpenTabletDriver.desktop" -t "${S}/usr/share/applications"
+
+
+}
