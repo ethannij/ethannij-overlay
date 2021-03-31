@@ -71,21 +71,21 @@ src_install() {
 
      cd "${S}/OpenTabletDriver/out"
      for binary in *.dll *.json *.pdb; do
-         install -Dm 755 -o root "$binary" -t "${S}/usr/share/OpenTabletDriver    "
+         install -Dm 755 -o root "$binary" -t "/usr/share/OpenTabletDriver"
      done
      cd "${S}"
 
      sed -i "s/OTD_VERSION/0.5.2.3/" "OpenTabletDriver.desktop"
 
      install -Dm 644 -o root "${S}/OpenTabletDriver-udev/90-opentabletdriver.rules"
-    -t "${S}/usr/lib/udev/rules.d"
-     install -Dm 644 -o root "${S}/OpenTabletDriver.UX/Assets/otd.png" -t "${S}/usr/share/pixmaps"
-     cp -r "${S}/OpenTabletDriver/Configurations" "${S}/usr/share/OpenTabletDriver/"
+    -t "/usr/lib/udev/rules.d"
+     install -Dm 644 -o root "${S}/OpenTabletDriver.UX/Assets/otd.png" -t "/usr/share/pixmaps"
+     cp -r "${S}/OpenTabletDriver/Configurations" "/usr/share/OpenTabletDriver/"
 
-     install -Dm 755 -o root "otd" -t "${S}/usr/bin"
-     install -Dm 755 -o root "otd-gui" -t "${S}/usr/bin"
+     install -Dm 755 -o root "otd" -t "/usr/bin"
+     install -Dm 755 -o root "otd-gui" -t "/usr/bin"
      #install -Dm 644 -o root "opentabletdriver.service" -t "${S}/usr/lib/systemd/user"
-     install -Dm 644 -o root "OpenTabletDriver.desktop" -t "${S}/usr/share/applications"
+     install -Dm 644 -o root "OpenTabletDriver.desktop" -t "/usr/share/applications"
 
 
 }
