@@ -11,6 +11,9 @@ else
     KEYWORDS="~amd64"
 fi
 
+LP="$(sed -e 's/\(.*\)/\L\1/' <<< "${P}")"
+SP="otd"
+
 SLOT="0"
 IUSE=""
 DEPEND="
@@ -80,8 +83,6 @@ src_compile() {
 }
 
 src_install() {
-    LP=sed -e 's/\(.*\)/\L\1/' <<< "${P}"
-    SP=otd
     cd "${S}"
 
     install -do root "${D}/usr/share/${P}"
