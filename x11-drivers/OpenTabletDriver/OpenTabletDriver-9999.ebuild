@@ -48,7 +48,6 @@ src_compile() {
         --runtime         linux-x64                 \
         --self-contained  false                     \
         --output          "./${PN}/out"         \
-        /p:VersionPrefix="$PREFIX"                  \
         /p:SuppressNETCoreSdkPreviewMessage=true    \
         /p:PublishTrimmed=false
 
