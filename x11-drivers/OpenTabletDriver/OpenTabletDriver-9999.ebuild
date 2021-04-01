@@ -37,6 +37,7 @@ src_prepare() {
 src_compile() {
     export DOTNET_CLI_TELEMETRY_OPTOUT=1
     export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+    export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
 
     cd "${S}/${PN}"
     PREFIX=$(git describe --long --tags | sed 's/-.*//;s/v//')
