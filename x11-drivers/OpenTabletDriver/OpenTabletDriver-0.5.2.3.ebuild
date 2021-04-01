@@ -23,6 +23,8 @@ src_prepare() {
 }
 
 src_compile() {
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 
     dotnet publish        OpenTabletDriver.Daemon   \
          --configuration   Release                   \
@@ -67,9 +69,9 @@ src_compile() {
 src_install() {
     cd ${S}
 
-    install -do root "${S}/usr/share/OpenTabletDriver"
+    install -do root "/usr/share/OpenTabletDriver"
 
-     cd "${S}/OpenTabletDriver/out"
+     cd "${S}/OpenTabletDriver/OpenTabletDriver/out"
      for binary in *.dll *.json *.pdb; do
          install -Dm 755 -o root "$binary" -t "/usr/share/OpenTabletDriver"
      done
