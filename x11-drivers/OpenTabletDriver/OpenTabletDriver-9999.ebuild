@@ -31,6 +31,7 @@ src_prepare() {
     cd "${S}/${PN}-udev/.modules"
     rmdir "${PN}"
     ln -s "${S}/${PN}" "${PN}"
+    default
 }
 
 src_compile() {
