@@ -37,26 +37,42 @@ src_prepare() {
 src_compile() {
     export DOTNET_CLI_TELEMETRY_OPTOUT=1
     export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-    export DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
 
     cd "${S}/${PN}"
     PREFIX=$(git describe --long --tags | sed 's/-.*//;s/v//')
     SUFFIX=$(git describe --long --tags | sed 's/^[^-]*-//;s/\([^-]*-g\)/r\1/;s/-/./g')
 
-    cd "${S}/${PN}.Daemon"
-    dotnet publish . \
-        --runtime linux-x64 \
-        --output "${S}/${PN}/out/"         
-    
-    cd "${S}/${PN}.Console"
-    dotnet publish . \
-        --runtime linux-x64 \
-        --output "${S}/${PN}/out/"         
+    dotnet publish        OpenTabletDriver.Daemon   \
+        --configuration   Release                   \
+        --framework       net5                      \
+        --runtime         linux-x64                 \
+        --self-contained  false                     \
+        --output          "./${PN}/out"         \
+        /p:VersionPrefix="$PREFIX"                  \
+        /p:SuppressNETCoreSdkPreviewMessage=true    \
+        /p:PublishTrimmed=false
 
-    cd "${S}/${PN}.UX.Gtk"
-    dotnet publish . \
-        --runtime linux-x64 \
-        --output "${S}/${PN}/out/"         
+    dotnet publish        OpenTabletDriver.Console  \
+        --configuration   Release                   \
+        --framework       net5                      \
+        --runtime         linux-x64                 \
+        --self-contained  false                     \
+        --output          "./${PN}/out"         \
+        --version-suffix  "$SUFFIX"                 \
+        /p:VersionPrefix="$PREFIX"                  \
+        /p:SuppressNETCoreSdkPreviewMessage=true    \
+        /p:PublishTrimmed=false
+
+    dotnet publish        OpenTabletDriver.UX.Gtk   \
+        --configuration   Release                   \
+        --framework       net5                      \
+        --runtime         linux-x64                 \
+        --self-contained  false                     \
+        --output          "./${PN}/out"         \
+        --version-suffix  "$SUFFIX"                 \
+        /p:VersionPrefix="$PREFIX"                  \
+        /p:SuppressNETCoreSdkPreviewMessage=true    \
+        /p:PublishTrimmed=false        
 
     #cd "${S}/${PN}-udev"
     #dotnet build          OpenTabletDriver.udev     \
