@@ -77,8 +77,7 @@ src_install() {
 
      sed -i "s/OTD_VERSION/0.5.2.3/" "OpenTabletDriver.desktop"
 
-     install -Dm 644 -o root "${S}/OpenTabletDriver-udev/90-opentabletdriver.rules"
-    -t "/usr/lib/udev/rules.d"
+     install -Dm 644 -o root "${S}/OpenTabletDriver-udev/90-opentabletdriver.rules" -t "/usr/lib/udev/rules.d"
      install -Dm 644 -o root "${S}/OpenTabletDriver.UX/Assets/otd.png" -t "/usr/share/pixmaps"
      cp -r "${S}/OpenTabletDriver/Configurations" "/usr/share/OpenTabletDriver/"
 
