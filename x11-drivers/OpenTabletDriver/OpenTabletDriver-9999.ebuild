@@ -7,7 +7,7 @@ if [[ ${PV} == 9999 ]]; then
     inherit git-r3
     EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver.git"
 else
-    SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${P}.tar.gz"
+    SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${PN}.tar.gz"
     KEYWORDS="~amd64"
 fi
 
@@ -31,7 +31,7 @@ src_compile() {
     export DOTNET_CLI_TELEMETRY_OPTOUT=1
     export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 
-    cd "${S}/${P}"
+    cd "${S}/${PN}"
     PREFIX=$(git describe --long --tags | sed 's/-.*//;s/v//')
     SUFFIX=$(git describe --long --tags | sed 's/^[^-]*-//;s/\([^-]*-g\)/r\1/;s/-/./g')
 
@@ -40,7 +40,7 @@ src_compile() {
         --framework       net5                      \
         --runtime         linux-x64                 \
         --self-contained  false                     \
-        --output          "./${P}/out"              \
+        --output          "./${PN}/out"              \
         /p:VersionPrefix="$PREFIX"                  \
         /p:SuppressNETCoreSdkPreviewMessage=true    \
         /p:PublishTrimmed=false
@@ -50,7 +50,7 @@ src_compile() {
         --framework       net5                      \
         --runtime         linux-x64                 \
         --self-contained  false                     \
-        --output          "./${P}/out"              \
+        --output          "./${PN}/out"              \
         --version-suffix  "$SUFFIX"                 \
         /p:VersionPrefix="$PREFIX"                  \
         /p:SuppressNETCoreSdkPreviewMessage=true    \
@@ -61,44 +61,44 @@ src_compile() {
         --framework       net5                      \
         --runtime         linux-x64                 \
         --self-contained  false                     \
-        --output          "./${P}/out"              \
+        --output          "./${PN}/out"              \
         --version-suffix  "$SUFFIX"                 \
         /p:VersionPrefix="$PREFIX"                  \
         /p:SuppressNETCoreSdkPreviewMessage=true    \
         /p:PublishTrimmed=false
 
-    #cd "${S}/${P}-udev"
+    #cd "${S}/${PN}-udev"
     #dotnet build          OpenTabletDriver.udev     \
     #    --configuration   Release                   \
     #    --framework       net5                      \
     #    --runtime         linux-x64                 \
-    #    --output          "./${P}.udev/out"         \
+    #    --output          "./${PN}.udev/out"         \
     #    /p:SuppressNETCoreSdkPreviewMessage=true
 
-    #dotnet "./${P}.udev/out/${P}.udev.dll" \
-    #    "${S}/${P}/${P}/Configurations" \
+    #dotnet "./${PN}.udev/out/${PN}.udev.dll" \
+    #    "${S}/${PN}/${PN}/Configurations" \
     #    "90-${LP}.rules" > /dev/null
 }
 
 src_install() {
     cd "${S}"
 
-    install -do root "${D}/usr/share/${P}"
+    install -do root "${D}/usr/share/${PN}"
 
-    cd "${S}/${P}/${P}/out"
+    cd "${S}/${PN}/${PN}/out"
     for binary in *.dll *.json *.pdb; do
-        install -Dm 755 -o root "$binary" -t "${D}/usr/share/${P}"
+        install -Dm 755 -o root "$binary" -t "${D}/usr/share/${PN}"
     done
     cd "${S}"
 
-    sed -i "s/OTD_VERSION/${PV}/" "${P}.desktop"
+    sed -i "s/OTD_VERSION/${PV}/" "${PN}.desktop"
 
-    #install -Dm 644 -o root "${S}/${P}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
-    install -Dm 644 -o root "${S}/${P}/${P}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
-    cp -r "${S}/${P}/${P}/Configurations" "${D}/usr/share/${P}/"
+    #install -Dm 644 -o root "${S}/${PN}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
+    install -Dm 644 -o root "${S}/${PN}/${PN}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
+    cp -r "${S}/${PN}/${PN}/Configurations" "${D}/usr/share/${PN}/"
 
     install -Dm 755 -o root "${SP}" -t "${D}/usr/bin"
     install -Dm 755 -o root "${SP}-gui" -t "${D}/usr/bin"
     #install -Dm 644 -o root "${LP}.service" -t "${D}/usr/lib/systemd/user"
-    install -Dm 644 -o root "${P}.desktop" -t "${D}/usr/share/applications"
+    install -Dm 644 -o root "${PN}.desktop" -t "${D}/usr/share/applications"
 }
