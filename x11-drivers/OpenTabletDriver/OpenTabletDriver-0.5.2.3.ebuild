@@ -61,7 +61,7 @@ export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
          --output          "./OpenTabletDriver.udev/out"    \
          /p:SuppressNETCoreSdkPreviewMessage=true
 
-     dotnet "./OpenTabletDriver.udev/out/OpenTabletDriver.udev.dll" \
+    dotnet "./OpenTabletDriver.udev/out/OpenTabletDriver.udev.dll" \
          "${S}/OpenTabletDriver/Configurations" \
          "90-opentabletdriver.rules" > /dev/null
 }
@@ -71,22 +71,20 @@ src_install() {
 
     install -do root "${D}/usr/share/OpenTabletDriver"
 
-     cd "${S}/OpenTabletDriver/OpenTabletDriver/out"
-     for binary in *.dll *.json *.pdb; do
+    cd "${S}/OpenTabletDriver/out"
+    for binary in *.dll *.json *.pdb; do
          install -Dm 755 -o root "$binary" -t "${D}/usr/share/OpenTabletDriver"
-     done
-     cd "${S}"
+    done
+    cd "${S}"
 
-     sed -i "s/OTD_VERSION/0.5.2.3/" "OpenTabletDriver.desktop"
+    sed -i "s/OTD_VERSION/0.5.2.3/" "OpenTabletDriver.desktop"
 
-     install -Dm 644 -o root "${S}/OpenTabletDriver-udev/90-opentabletdriver.rules" -t "${D}/usr/lib/udev/rules.d"
-     install -Dm 644 -o root "${S}/OpenTabletDriver.UX/Assets/otd.png" -t "${D}/usr/share/pixmaps"
-     cp -r "${S}/OpenTabletDriver/Configurations" "${D}/usr/share/OpenTabletDriver/"
+    install -Dm 644 -o root "${S}/OpenTabletDriver-udev/90-opentabletdriver.rules" -t "${D}/usr/lib/udev/rules.d"
+    install -Dm 644 -o root "${S}/OpenTabletDriver.UX/Assets/otd.png" -t "${D}/usr/share/pixmaps"
+    cp -r "${S}/OpenTabletDriver/Configurations" "${D}/usr/share/OpenTabletDriver/"
 
-     install -Dm 755 -o root "otd" -t "${D}/usr/bin"
-     install -Dm 755 -o root "otd-gui" -t "${D}/usr/bin"
-     #install -Dm 644 -o root "opentabletdriver.service" -t "${S}/usr/lib/systemd/user"
-     #install -Dm 644 -o root "OpenTabletDriver.desktop" -t "/usr/share/applications"
-
-
+    install -Dm 755 -o root "otd" -t "${D}/usr/bin"
+    install -Dm 755 -o root "otd-gui" -t "${D}/usr/bin"
+    #install -Dm 644 -o root "opentabletdriver.service" -t "${S}/usr/lib/systemd/user"
+    #install -Dm 644 -o root "OpenTabletDriver.desktop" -t "/usr/share/applications"
 }
