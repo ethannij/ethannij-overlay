@@ -11,7 +11,7 @@ else
     KEYWORDS="~amd64"
 fi
 
-LP="$(sed -e 's/\(.*\)/\L\1/' <<< "${P}")"
+LP="opentabletdriver"
 SP="otd"
 
 SLOT="0"
@@ -24,9 +24,7 @@ DEPEND="
     || ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )
 "
 src_prepare() {
-    cd "${S}/${P}-udev/.modules"
-    rmdir "${P}"
-    ln -s "${S}/${P}" "${P}"
+    default
 }
 
 src_compile() {
@@ -69,17 +67,17 @@ src_compile() {
         /p:SuppressNETCoreSdkPreviewMessage=true    \
         /p:PublishTrimmed=false
 
-    cd "${S}/${P}-udev"
-    dotnet build          OpenTabletDriver.udev     \
-        --configuration   Release                   \
-        --framework       net5                      \
-        --runtime         linux-x64                 \
-        --output          "./${P}.udev/out"         \
-        /p:SuppressNETCoreSdkPreviewMessage=true
+    #cd "${S}/${P}-udev"
+    #dotnet build          OpenTabletDriver.udev     \
+    #    --configuration   Release                   \
+    #    --framework       net5                      \
+    #    --runtime         linux-x64                 \
+    #    --output          "./${P}.udev/out"         \
+    #    /p:SuppressNETCoreSdkPreviewMessage=true
 
-    dotnet "./${P}.udev/out/${P}.udev.dll" \
-        "${S}/${P}/${P}/Configurations" \
-        "90-${LP}.rules" > /dev/null
+    #dotnet "./${P}.udev/out/${P}.udev.dll" \
+    #    "${S}/${P}/${P}/Configurations" \
+    #    "90-${LP}.rules" > /dev/null
 }
 
 src_install() {
@@ -95,7 +93,7 @@ src_install() {
 
     sed -i "s/OTD_VERSION/${PV}/" "${P}.desktop"
 
-    install -Dm 644 -o root "${S}/${P}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
+    #install -Dm 644 -o root "${S}/${P}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
     install -Dm 644 -o root "${S}/${P}/${P}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
     cp -r "${S}/${P}/${P}/Configurations" "${D}/usr/share/${P}/"
 
