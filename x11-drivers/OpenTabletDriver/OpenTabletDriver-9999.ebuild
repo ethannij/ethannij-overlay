@@ -104,8 +104,8 @@ src_install() {
     install -Dm 644 -o root "${S}/${PN}/${PN}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
     cp -r "${S}/${PN}/${PN}/Configurations" "${D}/usr/share/${PN}/"
 
-    install -Dm 755 -o root "$_spkgname" -t "${D}/usr/bin"
-    install -Dm 755 -o root "$_spkgname-gui" -t "${D}/usr/bin"
+    install -Dm 755 -o root "${PN}" -t "${D}/usr/bin"
+    install -Dm 755 -o root "${PN}-gui" -t "${D}/usr/bin"
     #install -Dm 644 -o root "${LP}.service" -t "${D}/usr/lib/systemd/user"
     install -Dm 644 -o root "${PN}.desktop" -t "${D}/usr/share/applications"
 }
