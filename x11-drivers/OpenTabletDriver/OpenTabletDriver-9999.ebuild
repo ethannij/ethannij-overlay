@@ -5,7 +5,7 @@ HOMEPAGE="https://github.com/OpenTabletDriver"
 
 if [[ ${PV} == 9999 ]]; then
     inherit git-r3
-    EGIT_REPO_URI=("https://github.com/OpenTabletDriver/OpenTabletDriver.git" "git+https://github.com/OpenTabletDriver/OpenTabletDriver-udev")
+    EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver.git"
 else
     #non 9999 WIP
     SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${PN}.tar.gz"
@@ -26,6 +26,8 @@ DEPEND="
 "
 
 src_prepare() {
+    cd "${S}"
+    git clone "https://github.com/OpenTabletDriver/OpenTabletDriver-udev"
     cd "${S}/${PN}-udev/.modules"
     rmdir "${PN}"
     ln -s "${S}/${PN}" "${PN}"
