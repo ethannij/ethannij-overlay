@@ -31,7 +31,9 @@ src_compile() {
     export DOTNET_CLI_TELEMETRY_OPTOUT=1
     export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 
-    cd "${S}/${PN}"
+    mkdir "${S}/${PN}/out"
+
+    cd "${S}"
     PREFIX=$(git describe --long --tags | sed 's/-.*//;s/v//')
     SUFFIX=$(git describe --long --tags | sed 's/^[^-]*-//;s/\([^-]*-g\)/r\1/;s/-/./g')
 
@@ -85,7 +87,7 @@ src_install() {
 
     install -do root "${D}/usr/share/${PN}"
 
-    cd "${S}/${PN}/${PN}/out"
+    cd "${S}/${PN}/out"
     for binary in *.dll *.json *.pdb; do
         install -Dm 755 -o root "$binary" -t "${D}/usr/share/${PN}"
     done
@@ -94,8 +96,8 @@ src_install() {
     sed -i "s/OTD_VERSION/${PV}/" "${PN}.desktop"
 
     #install -Dm 644 -o root "${S}/${PN}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
-    install -Dm 644 -o root "${S}/${PN}/${PN}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
-    cp -r "${S}/${PN}/${PN}/Configurations" "${D}/usr/share/${PN}/"
+    install -Dm 644 -o root "${S}/${PN}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
+    cp -r "${S}/${PN}/Configurations" "${D}/usr/share/${PN}/"
 
     install -Dm 755 -o root "${SP}" -t "${D}/usr/bin"
     install -Dm 755 -o root "${SP}-gui" -t "${D}/usr/bin"
