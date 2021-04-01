@@ -42,18 +42,20 @@ src_compile() {
     PREFIX=$(git describe --long --tags | sed 's/-.*//;s/v//')
     SUFFIX=$(git describe --long --tags | sed 's/^[^-]*-//;s/\([^-]*-g\)/r\1/;s/-/./g')
 
-    dotnet build        OpenTabletDriver.Daemon   \
-        --runtime         linux-x64                 \
-        --output          "./${PN}/out"         \
+    cd "${S}/${PN}.Daemon"
+    dotnet build . \
+        --runtime linux-x64 \
+        --output "${S}/${PN}/out/"         
+    
+    cd "${S}/${PN}.Console"
+    dotnet build . \
+        --runtime linux-x64 \
+        --output "${S}/${PN}/out/"         
 
-        dotnet build        OpenTabletDriver.Console  \
-        --runtime         linux-x64                                     \
-        --output          "./${PN}/out"         \
-
-
-    dotnet build        OpenTabletDriver.UX.Gtk   \
-        --runtime         linux-x64                 \
-        --output          "./${PN}/out"         \
+    cd "${S}/${PN}.UX.Gtk"
+    dotnet build . \
+        --runtime linux-x64 \
+        --output "${S}/${PN}/out/"         
 
     #cd "${S}/${PN}-udev"
     #dotnet build          OpenTabletDriver.udev     \
