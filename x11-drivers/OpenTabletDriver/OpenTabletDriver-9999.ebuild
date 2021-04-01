@@ -44,20 +44,17 @@ src_compile() {
     SUFFIX=$(git describe --long --tags | sed 's/^[^-]*-//;s/\([^-]*-g\)/r\1/;s/-/./g')
 
     cd "${S}/${PN}.Daemon"
-    dotnet restore
-    dotnet build . \
+    dotnet publish . \
         --runtime linux-x64 \
         --output "${S}/${PN}/out/"         
     
     cd "${S}/${PN}.Console"
-    dotnet restore
-    dotnet build . \
+    dotnet publish . \
         --runtime linux-x64 \
         --output "${S}/${PN}/out/"         
 
     cd "${S}/${PN}.UX.Gtk"
-    dotnet restore
-    dotnet build . \
+    dotnet publish . \
         --runtime linux-x64 \
         --output "${S}/${PN}/out/"         
 
