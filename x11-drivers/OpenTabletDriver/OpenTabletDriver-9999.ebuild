@@ -27,7 +27,7 @@ DEPEND="
 
 src_prepare() {
     cd "${S}"
-    git clone "https://github.com/OpenTabletDriver/OpenTabletDriver-udev"
+    git clone "https://github.com/OpenTabletDriver/OpenTabletDriver-udev.git"
     cd "${S}/${PN}-udev/.modules"
     rmdir "${PN}"
     ln -s "${S}/${PN}" "${PN}"
