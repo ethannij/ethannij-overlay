@@ -26,11 +26,11 @@ DEPEND="
 "
 
 src_prepare() {
-    cd "${S}"
-    git clone "https://github.com/OpenTabletDriver/OpenTabletDriver-udev.git"
-    cd "${S}/${PN}-udev/.modules"
-    rmdir "${PN}"
-    ln -s "${S}/${PN}" "${PN}"
+    #cd "${S}"
+    #git clone "https://github.com/OpenTabletDriver/OpenTabletDriver-udev.git"
+    #cd "${S}/${PN}-udev/.modules"
+    #rmdir "${PN}"
+    #ln -s "${S}/${PN}" "${PN}"
     default
 }
 
@@ -74,17 +74,17 @@ src_compile() {
         /p:SuppressNETCoreSdkPreviewMessage=true    \
         /p:PublishTrimmed=false
 
-    cd "${S}/${PN}-udev"
-    dotnet build          OpenTabletDriver.udev     \
-        --configuration   Release                   \
-        --framework       net5                      \
-        --runtime         linux-x64                 \
-        --output          "./${PN}.udev/out"    \
-        /p:SuppressNETCoreSdkPreviewMessage=true
+    #cd "${S}/${PN}-udev"
+    #dotnet build          OpenTabletDriver.udev     \
+    #   --configuration   Release                   \
+    #    --framework       net5                      \
+    #    --runtime         linux-x64                 \
+    #    --output          "./${PN}.udev/out"    \
+    #    /p:SuppressNETCoreSdkPreviewMessage=true
 
-    dotnet "./${PN}.udev/out/${PN}.udev.dll" \
-        "${S}/${PN}/${PN}/Configurations" \
-        "90-${LP}.rules" > /dev/null
+    #dotnet "./${PN}.udev/out/${PN}.udev.dll" \
+    #    "${S}/${PN}/${PN}/Configurations" \
+    #    "90-${LP}.rules" > /dev/null
 }
 
 src_install() {
@@ -100,7 +100,7 @@ src_install() {
 
     sed -i "s/OTD_VERSION/${PV}/" "${PN}.desktop"
 
-    install -Dm 644 -o root "${S}/${PN}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
+    #install -Dm 644 -o root "${S}/${PN}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
     install -Dm 644 -o root "${S}/${PN}/${PN}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
     cp -r "${S}/${PN}/${PN}/Configurations" "${D}/usr/share/${PN}/"
 
