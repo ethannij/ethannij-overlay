@@ -5,11 +5,14 @@ HOMEPAGE="https://github.com/OpenTabletDriver"
 
 if [[ ${PV} == 9999 ]]; then
     inherit git-r3
-    EFIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver.git"
+    EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver.git"
 else
     SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${P}.tar.gz"
     KEYWORDS="~amd64"
 fi
+
+LP="$(sed -e 's/\(.*\)/\L\1/' <<< "${P}")"
+SP="otd"
 
 SLOT="0"
 IUSE=""
@@ -80,8 +83,6 @@ src_compile() {
 }
 
 src_install() {
-    LP=sed -e 's/\(.*\)/\L\1/' <<< "${P}"
-    SP=otd
     cd "${S}"
 
     install -do root "${D}/usr/share/${P}"
