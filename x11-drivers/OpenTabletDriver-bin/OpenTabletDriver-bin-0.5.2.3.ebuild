@@ -14,7 +14,7 @@ SP="otd"
 SLOT="0"
 IUSE=""
 DEPEND="
-    x11-drivers/OpenTabletDriver-udev::ethannij-overlay
+    x11-drivers/OpenTabletDriver-udev
     x11-libs/libX11
     x11-libs/libXrandr
     dev-libs/libevdev
