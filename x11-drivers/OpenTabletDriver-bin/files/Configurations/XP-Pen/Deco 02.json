@@ -1,0 +1,31 @@
+{
+  "Name": "XP-Pen Deco 02",
+  "DigitizerIdentifiers": [
+    {
+      "Width": 223.52,
+      "Height": 139.7,
+      "MaxX": 22352.0,
+      "MaxY": 13970,
+      "MaxPressure": 8191,
+      "ActiveReportID": {
+        "Start": 80,
+        "StartInclusive": true,
+        "End": 96,
+        "EndInclusive": false
+      },
+      "VendorID": 10429,
+      "ProductID": 2051,
+      "InputReportLength": 10,
+      "OutputReportLength": 8,
+      "ReportParser": "OpenTabletDriver.Tablet.TabletReportParser",
+      "FeatureInitReport": null,
+      "OutputInitReport": "ArAC",
+      "DeviceStrings": {},
+      "InitializationStrings": []
+    }
+  ],
+  "AuxilaryDeviceIdentifiers": [],
+  "Attributes": {
+    "libinputoverride": "1"
+  }
+}
