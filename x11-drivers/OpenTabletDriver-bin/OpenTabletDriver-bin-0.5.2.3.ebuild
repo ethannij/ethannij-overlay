@@ -31,14 +31,14 @@ src_install() {
 
     install -do root "${D}/usr/share/${NAME}"
 
-    for binary in *.dll *.json *.pdb; do
+    for binary in *.dll *.json; do
         install -Dm 755 -o root "$binary" -t "${D}/usr/share/${NAME}"
     done
 
     #install -Dm 644 -o root "${S}/${NAME}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
     cp -r "${S}/Configurations" "${D}/usr/share/${NAME}/"
 
-    install -Dm 755 -o root "${NAME}.Daemon" -t "${D}/usr/bin/${NAME}-daemon"
-    install -Dm 755 -o root "${NAME}.UX.Gtk" -t "${D}/usr/bin/${NAME}-gui"
-    install -Dm 755 -o root "${NAME}.Console" -t "${D}/usr/bin/${NAME}"
+    install -Dm 755 -o root "${NAME}.Daemon" -t "${D}/usr/bin/"
+    install -Dm 755 -o root "${NAME}.UX.Gtk" -t "${D}/usr/bin/"
+    install -Dm 755 -o root "${NAME}.Console" -t "${D}/usr/bin/"
 }
