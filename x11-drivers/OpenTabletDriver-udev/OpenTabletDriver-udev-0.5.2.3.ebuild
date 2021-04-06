@@ -5,6 +5,8 @@ HOMEPAGE="https://github.com/OpenTabletDriver"
 
 _pkgname="OpenTabletDriver"
 _lpkgname="opentabletdriver"
+
+inherit git-r3
 EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver-udev
 
 KEYWORDS="~amd64"
