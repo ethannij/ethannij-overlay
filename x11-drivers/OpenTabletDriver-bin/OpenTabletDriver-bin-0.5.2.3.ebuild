@@ -18,6 +18,8 @@ DEPEND="
     x11-libs/gtk+
     || ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )
 "
+S=${WORKDIR}/${PN}
+
 src_prepare() {
     default
     ln -s ${WORKDIR}/${PN} ${WORKDIR}/${P}
