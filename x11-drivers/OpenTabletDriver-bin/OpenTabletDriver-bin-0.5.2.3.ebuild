@@ -11,12 +11,7 @@ source=('git+https://github.com/OpenTabletDriver/OpenTabletDriver'
         "$_pkgname.desktop"
         "notes.install")
 
-SRC_URI+="
-    https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${NAME}-${PV}.tar.gz
-    https://github.com/OpenTabletDriver/OpenTabletDriver-udev
-    https://aur.archlinux.org/cgit/aur.git/tree/otd?h=opentabletdriver-git
-    https://aur.archlinux.org/cgit/aur.git/tree/otd-gui?h=opentabletdriver-git
-"
+SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${NAME}-${PV}.tar.gz"
 
 KEYWORDS="~amd64"
 
@@ -38,6 +33,14 @@ DEPEND="
 src_prepare() {
     default
     ln -s ${WORKDIR}/${NAME} ${WORKDIR}/${NAME}-${PV}
+    cd ${S}
+    git clone https://github.com/OpenTabletDriver/OpenTabletDriver-udev
+    cd ${WORKDIR}
+    wget https://aur.archlinux.org/cgit/aur.git/tree/otd?h=opentabletdriver-git
+    wget https://aur.archlinux.org/cgit/aur.git/tree/otd-gui?h=opentabletdriver-git
+
+
+    
 }
    
 src_install() {
