@@ -38,6 +38,7 @@ src_prepare() {
 src_compile() {
     export DOTNET_CLI_TELEMETRY_OPTOUT=1
     export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+    export NUGET_CERT_REVOCATION_MODE="offline"
     export NUGET_PACKAGES="${WORKDIR}/nuget/packages/"
     export NUGET_FALLBACK_PACKAGES=""
     export NUGET_HTTP_CACHE_PATH="${WORKDIR}/nuget/http_cache"
