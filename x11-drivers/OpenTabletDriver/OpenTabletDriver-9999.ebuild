@@ -39,9 +39,9 @@ src_compile() {
     export DOTNET_CLI_TELEMETRY_OPTOUT=1
     export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
     export NUGET_PACKAGES="${WORKDIR}/nuget/packages/"
-    export NUGET_FALLBACK_PACKAGES="${WORKDIR}/nuget/fallback_packages"
+    export NUGET_FALLBACK_PACKAGES=""
     export NUGET_HTTP_CACHE_PATH="${WORKDIR}/nuget/http_cache"
-    
+
     cd "${S}"
     PREFIX=$(git describe --long --tags | sed 's/-.*//;s/v//')
     SUFFIX=$(git describe --long --tags | sed 's/^[^-]*-//;s/\([^-]*-g\)/r\1/;s/-/./g')
