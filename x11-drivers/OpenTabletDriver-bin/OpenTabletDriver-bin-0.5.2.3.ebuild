@@ -3,7 +3,21 @@ EAPI=7
 DESCRIPTION="A cross platform tablet driver (binary package)"
 HOMEPAGE="https://github.com/OpenTabletDriver"
 
-SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${NAME}.tar.gz"
+source=('git+https://github.com/OpenTabletDriver/OpenTabletDriver'
+        'git+https://github.com/OpenTabletDriver/OpenTabletDriver-udev'
+        "$_spkgname"
+        "$_spkgname-gui"
+        "$_lpkgname.service"
+        "$_pkgname.desktop"
+        "notes.install")
+
+SRC_URI+="
+    https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${NAME}-${PV}.tar.gz
+    https://github.com/OpenTabletDriver/OpenTabletDriver-udev
+    https://aur.archlinux.org/cgit/aur.git/tree/otd?h=opentabletdriver-git
+    https://aur.archlinux.org/cgit/aur.git/tree/otd-gui?h=opentabletdriver-git
+"
+
 KEYWORDS="~amd64"
 
 NAME="OpenTabletDriver"
@@ -19,7 +33,7 @@ DEPEND="
     x11-libs/gtk+
     || ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )
 "
-S=${WORKDIR}/${NAME}
+#S=${WORKDIR}/${NAME}
 
 src_prepare() {
     default
@@ -33,6 +47,10 @@ src_install() {
 
     for binary in *.dll *.json; do
         install -Dm 755 -o root "$binary" -t "${D}/usr/share/${NAME}"
+    done
+
+    for bin in *.Daemon *.UX.Gtk *.Console; do
+        install -Dm 755 -o root "$bin" -t "${D}/usr/share/${NAME}"
     done
 
     #install -Dm 644 -o root "${S}/${NAME}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
