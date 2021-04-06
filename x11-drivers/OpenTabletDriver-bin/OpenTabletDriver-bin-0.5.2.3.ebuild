@@ -40,11 +40,7 @@ src_install() {
         install -Dm 755 -o root "$bin" -t "${D}/usr/share/${NAME}"
     done
 
-    cp -r "${S}/Configurations" "${D}/usr/share/${NAME}/"
-
     cd "${FILESDIR}"
     install -Dm 755 -o root "${SP}" -t "${D}/usr/bin"
     install -Dm 755 -o root "${SP}-gui" -t "${D}/usr/bin"
-    install -Dm 644 -o root "${FILESDIR}/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
-    cp -r "${FILESDIR}/Configurations" "${D}/usr/share/${NAME}/"
 }
