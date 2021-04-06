@@ -7,7 +7,7 @@ _pkgname="OpenTabletDriver"
 _lpkgname="opentabletdriver"
 
 inherit git-r3
-EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/tree/master/OpenTabletDriver/Configurations"
+EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver"
 
 KEYWORDS="~amd64"
 
@@ -16,5 +16,5 @@ IUSE=""
 
 src_install() {
     install -Dm 644 -o root "${FILESDIR}/90-$_lpkgname.rules" -t "${D}/usr/lib/udev/rules.d"
-    cp -r "${S}/Configurations" "${D}/usr/share/$_pkgname/"
+    cp -r "${S}/${_pkgname}/Configurations" "${D}/usr/share/$_pkgname/"
 }
