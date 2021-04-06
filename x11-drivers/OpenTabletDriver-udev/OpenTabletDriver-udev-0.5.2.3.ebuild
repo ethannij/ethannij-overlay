@@ -5,7 +5,7 @@ HOMEPAGE="https://github.com/OpenTabletDriver"
 
 _pkgname="OpenTabletDriver"
 _lpkgname="opentabletdriver"
-SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver-udev -> ${PN}.tar.gz"
+SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver-udev
 
 KEYWORDS="~amd64"
 
