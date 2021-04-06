@@ -40,14 +40,9 @@ src_install() {
         install -Dm 755 -o root "$bin" -t "${D}/usr/share/${NAME}"
     done
 
-    #install -Dm 644 -o root "${S}/${NAME}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
     cp -r "${S}/Configurations" "${D}/usr/share/${NAME}/"
 
     cd "${FILESDIR}"
     install -Dm 755 -o root "${SP}" -t "${D}/usr/bin"
     install -Dm 755 -o root "${SP}-gui" -t "${D}/usr/bin"
-
-    #install -Dm 755 -o root "${NAME}.Daemon" -t "${D}/usr/bin/"
-    #install -Dm 755 -o root "${NAME}.UX.Gtk" -t "${D}/usr/bin/"
-    #install -Dm 755 -o root "${NAME}.Console" -t "${D}/usr/bin/"
 }
