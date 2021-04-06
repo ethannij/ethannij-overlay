@@ -3,18 +3,11 @@ EAPI=7
 DESCRIPTION="A cross platform tablet driver (binary package)"
 HOMEPAGE="https://github.com/OpenTabletDriver"
 
-source=('git+https://github.com/OpenTabletDriver/OpenTabletDriver'
-        'git+https://github.com/OpenTabletDriver/OpenTabletDriver-udev'
-        "$_spkgname"
-        "$_spkgname-gui"
-        "$_lpkgname.service"
-        "$_pkgname.desktop"
-        "notes.install")
-
 SRC_URI+="
         https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${NAME}-${PV}.tar.gz
-        https://github.com/OpenTabletDriver/OpenTabletDriver-udev
 "
+inherit git-r3
+EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver-udev"
 
 KEYWORDS="~amd64"
 
