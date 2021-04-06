@@ -14,9 +14,7 @@ KEYWORDS="~amd64"
 SLOT="0"
 IUSE=""
 
-DEPEND="
-    || ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )
-"
+DEPEND="|| ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )"
 
 src_compile() {
     cd "${S}"
