@@ -3,10 +3,10 @@ EAPI=7
 DESCRIPTION="A cross platform tablet driver (binary package)"
 HOMEPAGE="https://github.com/OpenTabletDriver"
 
-SRC_URI+="
+SRC_URI="
         https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${NAME}-${PV}.tar.gz
 "
-inherit git-r3
+
 EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver-udev"
 
 KEYWORDS="~amd64"
@@ -25,6 +25,27 @@ DEPEND="
     || ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )
 "
 S=${WORKDIR}/${NAME}
+
+src_unpack() {
+    cd "${S}"
+    elog "checking out the suite..."
+        declare -a headers=($(echo ${EGIT_REPO_URI} | sed 's/[\/\.]/ /'g) )
+        local index=$((${#headers[@]} - 2))
+        export EGIT_PROJECT="${headers[$index]}"
+        git-2_src_unpack
+
+        elog "checking out modules..."
+        for repo in $(echo ${EGIT_REPO_URI_LIST}); do
+                unset EGIT_DIR
+                export EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver-udev"
+                declare -a headers=($(echo ${EGIT_REPO_URI} | sed 's/[\/\.]/ /'g) )
+                index=$((${#headers[@]} - 2))
+                export EGIT_SOURCEDIR="${S}"
+                export EGIT_PROJECT="${PN}-${headers[$index]}"
+                cd "${S}"
+                git-2_src_unpack
+        done 
+}
 
 src_prepare() {
     default
