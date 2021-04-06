@@ -20,6 +20,7 @@ DEPEND="
 "
 src_prepare() {
     default
+    ln -s ${WORKDIR}/${PN} ${WORKDIR}/${P}
 }
    
 src_install() {
