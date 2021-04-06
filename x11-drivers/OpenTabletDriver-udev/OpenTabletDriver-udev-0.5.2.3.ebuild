@@ -7,20 +7,14 @@ _pkgname="OpenTabletDriver"
 _lpkgname="opentabletdriver"
 
 inherit git-r3
-EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver-udev
+EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver-udev"
 
 KEYWORDS="~amd64"
 
 SLOT="0"
 IUSE=""
 
-DEPEND="
-    x11-libs/libX11
-    x11-libs/libXrandr
-    dev-libs/libevdev
-    x11-libs/gtk+
-    || ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )
-"
+DEPEND="|| ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )"
 
 src_compile() {
     cd "${S}"
