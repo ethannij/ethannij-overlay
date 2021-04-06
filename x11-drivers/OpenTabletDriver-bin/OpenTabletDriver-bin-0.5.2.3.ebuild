@@ -19,6 +19,7 @@ DEPEND="
     x11-libs/gtk+
     || ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )
 "
+S=${WORKDIR}/${NAME}
 
 src_prepare() {
     default
