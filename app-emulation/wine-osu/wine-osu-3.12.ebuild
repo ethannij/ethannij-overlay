@@ -52,8 +52,8 @@ src_compile() {
 
     cd "${WORKDIR}/$pkgname-64-build"
     ../wine-${PV}/configure \
-        --prefix=/opt/wine-osu \
-        --libdir=/opt/wine-osu/lib \
+        --prefix=${D}/opt/wine-osu \
+        --libdir=${D}/opt/wine-osu/lib \
         --with-x \
         --with-gstreamer \
         --without-pcap \
@@ -68,11 +68,11 @@ src_compile() {
     export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
     cd "${WORKDIR}/$pkgname-32-build"
     ../wine-${PV}/configure \
-        --prefix=/opt/wine-osu \
+        --prefix=${D}/opt/wine-osu \
         --with-x \
         --with-xattr \
         --without-pcap \
-        --libdir=/opt/wine-osu/lib \
+        --libdir=/opt/wine-osu/lib32 \
         --with-wine64="${WORKDIR}/$pkgname-64-build"
 
     emake
@@ -83,8 +83,8 @@ src_install() {
     cd "${WORKDIR}/$pkgname-32-build"
 
     emake prefix="${D}/opt/wine-osu" \
-        libdir="${D}/opt/wine-osu/lib" \
-        dlldir="${D}/opt/wine-osu/lib/wine" install
+        libdir="${D}/opt/wine-osu/lib32" \
+        dlldir="${D}/opt/wine-osu/lib32/wine" install
 
     echo "Packaging Wine-64..."
     cd "${WORKDIR}/$pkgname-64-build"
