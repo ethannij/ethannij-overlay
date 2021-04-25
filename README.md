@@ -1,6 +1,7 @@
 # ethannij-overlay
 Ethannij's Gentoo Overlay
 
+## OpenTabletDriver
 OpenTabletDriver (source build) is currently broken due to some nuget certification issue that I can't figure out.
 
 OpenTabletDriver-bin (the binary build) is basically the precompiled binary found at https://github.com/OpenTabletDriver/OpenTabletDriver/releases/tag/v0.5.2.3
@@ -15,3 +16,9 @@ All credit and files go to InfinityGhost (https://github.com/InfinityGhost) and 
 The ebuilds themselves are mostly adapted from the aur PKGBUILD.
 
 So far I am yet to include any init scripts or .desktop files.
+
+## wine-osu
+I found an interesting project here (https://blog.thepoon.fr/osuLinuxAudioLatency/#adjusting-latency) where ThePooN covers a version of wine they created to minimize audio latency in osu.
+I created an ebuild for gentoo linux that replicates the same process used in the AUR package (https://aur.archlinux.org/packages/wine-osu/).
+
+NOTE: For wine-osu to compile properly on GCC 10, you must add -fcommon to your package.env
