@@ -6,6 +6,9 @@ HOMEPAGE="https://blog.thepoon.fr/osuLinuxAudioLatency/"
 SRC_URI=("https://github.com/wine-staging/wine-staging/archive/v${PV}.tar.gz https://dl.winehq.org/wine/source/3.x/wine-${PV}.tar.xz")
 SLOT="0"
 
+KEYWORDS="~amd64"
+
+
 PATCHES=(
     "${FILESDIR}/harmony-fix.diff"
     "${FILESDIR}/winealsa_latency.patch"
