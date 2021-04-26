@@ -10,7 +10,7 @@ KEYWORDS="~amd64"
 
 DEPEND="
 	sys-apps/attr
-	media-select/fontconfig
+	media-libs/fontconfig
 	media-libs/lcms
 	dev-libs/libxml2
 	x11-libs/libXcursor
