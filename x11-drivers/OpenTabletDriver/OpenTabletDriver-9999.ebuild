@@ -1,11 +1,13 @@
 EAPI=7
 
+inherit desktop
+
 DESCRIPTION="A cross platform tablet driver"
 HOMEPAGE="https://github.com/OpenTabletDriver"
 
 if [[ ${PV} == 9999 ]]; then
     inherit git-r3
-    EGIT_REPO_URI="https://github.com/OpenTabletDriver/OpenTabletDriver.git"
+    EGIT_REPO_URI=("https://github.com/OpenTabletDriver/OpenTabletDriver.git")
 else
     #non 9999 WIP
     SRC_URI="https://github.com/OpenTabletDriver/OpenTabletDriver/releases/download/v${PV}/OpenTabletDriver.linux-x64.tar.gz -> ${PN}.tar.gz"
@@ -26,22 +28,21 @@ DEPEND="
 "
 
 src_prepare() {
-    #cd "${S}"
-    #git clone "https://github.com/OpenTabletDriver/OpenTabletDriver-udev.git"
-    #cd "${S}/${PN}-udev/.modules"
-    #rmdir "${PN}"
-    #ln -s "${S}/${PN}" "${PN}"
+    cd "${S}"
+    git clone "https://github.com/OpenTabletDriver/OpenTabletDriver-udev.git"
+    cd "${S}/${PN}-udev/.modules"
+    rmdir "${PN}"
+    ln -s "${S}" "${PN}"
     default
-    mkdir ${WORKDIR}/nuget
 }
 
 src_compile() {
     export DOTNET_CLI_TELEMETRY_OPTOUT=1
     export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-    export NUGET_CERT_REVOCATION_MODE="offline"
-    export NUGET_PACKAGES="${WORKDIR}/nuget/packages/"
-    export NUGET_FALLBACK_PACKAGES=""
-    export NUGET_HTTP_CACHE_PATH="${WORKDIR}/nuget/http_cache"
+    #export NUGET_CERT_REVOCATION_MODE="offline"
+    #export NUGET_PACKAGES="${WORKDIR}/nuget/packages/"
+    #export NUGET_FALLBACK_PACKAGES=""
+    #export NUGET_HTTP_CACHE_PATH="${WORKDIR}/nuget/http_cache"
 
     cd "${S}"
     PREFIX=$(git describe --long --tags | sed 's/-.*//;s/v//')
@@ -79,38 +80,78 @@ src_compile() {
         /p:SuppressNETCoreSdkPreviewMessage=true    \
         /p:PublishTrimmed=false        
 
-    #cd "${S}/${PN}-udev"
-    #dotnet build          OpenTabletDriver.udev     \
-    #   --configuration   Release                   \
-    #    --framework       net5                      \
-    #    --runtime         linux-x64                 \
-    #    --output          "./${PN}.udev/out"    \
-    #    /p:SuppressNETCoreSdkPreviewMessage=true
+    dotnet build          ./${PN}-udev/OpenTabletDriver.udev     \
+       --configuration   Release                   \
+        --framework       net5                      \
+        --runtime         linux-x64                 \
+        --output          "./${PN}-udev/${PN}.udev/out"    \
+        /p:SuppressNETCoreSdkPreviewMessage=true
 
-    #dotnet "./${PN}.udev/out/${PN}.udev.dll" \
-    #    "${S}/${PN}/${PN}/Configurations" \
-    #    "90-${LP}.rules" > /dev/null
+    dotnet "./${PN}-udev/${PN}.udev/out/${PN}.udev.dll" \
+        "${S}/${PN}/Configurations" \
+        "90-${LP}.rules" > /dev/null
 }
 
 src_install() {
-    cd "${S}"
+	cd "${S}"
 
-    install -do root "${D}/usr/share/${PN}"
+	# install -do root "${D}/usr/share/${PN}"
 
-    cd "${S}/${PN}/${PN}/out"
-    for binary in *.dll *.json *.pdb; do
-        install -Dm 755 -o root "$binary" -t "${D}/usr/share/${PN}"
-    done
-    cd "${S}"
+	exeinto "/usr/share/${PN}"
+	exeopts -o root -Dm755
 
-    sed -i "s/OTD_VERSION/${PV}/" "${PN}.desktop"
+    cd ${S}/${PN}/out
+	for binary in *.dll *.json; do
+		# install -Dm 755 -o root "$binary" -t "${D}/usr/share/${PN}"
+		doexe "$binary"
+		#fowners root "$binary"
+	done
 
-    #install -Dm 644 -o root "${S}/${PN}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
-    install -Dm 644 -o root "${S}/${PN}/${PN}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
-    cp -r "${S}/${PN}/${PN}/Configurations" "${D}/usr/share/${PN}/"
+	for bin in *.Daemon *.UX.Gtk *.Console; do
+		# install -Dm 755 -o root "$bin" -t "${D}/usr/share/${PN}"
+		doexe "$bin"
+	done
 
-    install -Dm 755 -o root "${PN}" -t "${D}/usr/bin"
-    install -Dm 755 -o root "${PN}-gui" -t "${D}/usr/bin"
-    #install -Dm 644 -o root "${LP}.service" -t "${D}/usr/lib/systemd/user"
-    install -Dm 644 -o root "${PN}.desktop" -t "${D}/usr/share/applications"
+    cd ${S}/${PN}
+	insinto "/usr/share/${PN}"
+	doins -r "Configurations"
+
+	install -Dm 644 -o root "${S}/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
+	udevadm control --reload
+
+	cd "${FILESDIR}"
+	install -Dm 755 -o root "${SP}" -t "${D}/usr/bin"
+	install -Dm 755 -o root "${SP}-gui" -t "${D}/usr/bin"
+
+	doicon "opentabletdriver.png"
+	make_desktop_entry /usr/bin/otd-gui OpenTabletDriver opentabletdriver Settings
 }
+
+pkg_postinst() {
+	ewarn "If this is your first time installing,"
+	ewarn "please replug your tablet."
+}
+
+
+#src_install() {
+#    cd "${S}"
+#
+#    install -do root "${D}/usr/share/${PN}"
+#
+#    cd "${S}/${PN}/${PN}/out"
+#    for binary in *.dll *.json *.pdb; do
+#        install -Dm 755 -o root "$binary" -t "${D}/usr/share/${PN}"
+#    done
+#    cd "${S}"
+#
+#    sed -i "s/OTD_VERSION/${PV}/" "${PN}.desktop"
+#
+#    #install -Dm 644 -o root "${S}/${PN}-udev/90-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
+#    install -Dm 644 -o root "${S}/${PN}/${PN}.UX/Assets/${SP}.png" -t "${D}/usr/share/pixmaps"
+#    cp -r "${S}/${PN}/${PN}/Configurations" "${D}/usr/share/${PN}/"
+#
+#    install -Dm 755 -o root "${PN}" -t "${D}/usr/bin"
+#    install -Dm 755 -o root "${PN}-gui" -t "${D}/usr/bin"
+#    #install -Dm 644 -o root "${LP}.service" -t "${D}/usr/lib/systemd/user"
+#    install -Dm 644 -o root "${PN}.desktop" -t "${D}/usr/share/applications"
+#}
