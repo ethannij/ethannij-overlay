@@ -4,7 +4,7 @@ Ethannij's Gentoo Overlay
 ## OpenTabletDriver
 OpenTabletDriver (source build) is currently broken due to some nuget certification issue that I can't figure out.
 
-OpenTabletDriver-bin (the binary build) is basically the precompiled binary found at https://github.com/OpenTabletDriver/OpenTabletDriver/releases/tag/v0.5.2.3
+OpenTabletDriver-bin (the binary build) is basically the precompiled binary found at https://github.com/OpenTabletDriver/OpenTabletDriver/releases/tag/v{package_version}
 The ebuild works as follows: call deps, grab tar, move files from tar into /usr/share/OpenTabletDriver, move otd and otd-gui scripts into /usr/bin/.
 
 The bin ebuild also pulls the OpenTabletDriver-udev package which contains a 90-opentabletdriver.rules that I compiled and the Configurations folder which is moved into /usr/share/OpenTabletDriver.
@@ -15,7 +15,10 @@ All credit and files go to InfinityGhost (https://github.com/InfinityGhost) and 
 
 The ebuilds themselves are mostly adapted from the aur PKGBUILD.
 
-So far I am yet to include any init scripts or .desktop files.
+So far I am yet to include any init scripts.
+
+
+Thanks to https://github.com/nerd for helping me clean the existing OTD-bin ebuild as well as suggesting solutions for the source builds
 
 ## wine-osu
 I found an interesting project here (https://blog.thepoon.fr/osuLinuxAudioLatency/#adjusting-latency) where ThePooN covers a version of wine they created to minimize audio latency in osu.
