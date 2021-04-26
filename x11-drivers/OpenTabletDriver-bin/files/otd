@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /usr/share/OpenTabletDriver
+cd /usr/share/opentabletdriver-bin
 if [ $# -eq 0 ]
 then
     if [[ ! -v DISPLAY ]] && [[ ! -v WAYLAND_DISPLAY ]]
