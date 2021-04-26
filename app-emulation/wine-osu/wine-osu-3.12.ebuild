@@ -8,6 +8,33 @@ SLOT="0"
 
 KEYWORDS="~amd64"
 
+DEPEND="
+	sys-apps/attr
+	media-select/fontconfig
+	media-libs/lcms
+	dev-libs/libxml2
+	x11-libs/libXcursor
+	x11-libs/libXrandr
+	x11-libs/libXdamage
+	x11-libs/libXi
+	sys-devel/gettext
+	media-libs/freetype
+	media-libs/glu
+	x112-libs/libSM
+	sys-devel/gcc
+	net-libs/gnutls
+	media-sound/pulseaudio
+	dev-util/desktop-file-utils
+	x11-libs/libXmu
+	x11-libs/libXxf86vm
+	sys-devel/autoconf
+	sys-devel/bison
+	dev-lang/perl
+	media-gfx/fontforge
+	sys-devel/flex
+	media-libs/mesa
+	app-emulation/wine-vanilla
+"
 
 PATCHES=(
     "${FILESDIR}/harmony-fix.diff"
