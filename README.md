@@ -1,6 +1,10 @@
 # ethannij-overlay
 Ethannij's Gentoo Overlay
 
+To use my overlay `# emerge eselect-repository`
+`# eselect repository add ethannij-overlay git https://github.com/ethannij/ethannij-overlay`
+`# emerge --sync ethannij-overlay`
+
 ## OpenTabletDriver
 
 OpenTabletDriver-bin (the binary build) is basically the precompiled binary found at https://github.com/OpenTabletDriver/OpenTabletDriver/releases/tag/v{package_version}
