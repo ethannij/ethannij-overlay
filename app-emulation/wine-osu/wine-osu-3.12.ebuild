@@ -20,7 +20,7 @@ DEPEND="
 	sys-devel/gettext
 	media-libs/freetype
 	media-libs/glu
-	x112-libs/libSM
+	x11-libs/libSM
 	sys-devel/gcc
 	net-libs/gnutls
 	media-sound/pulseaudio
