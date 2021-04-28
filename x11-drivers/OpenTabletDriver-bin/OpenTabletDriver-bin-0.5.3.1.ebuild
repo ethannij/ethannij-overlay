@@ -20,8 +20,10 @@ DEPEND="
 	x11-libs/gtk+:3
 	|| ( dev-dotnet/dotnetcore-sdk-bin dev-dotnet/dotnetcore-sdk )
 "
-S=${WORKDIR}/OpenTabletDriver
 
+PN=OpenTabletDriver
+S=${WORKDIR}/${PN}
+LP=opentabletdriver
 src_install() {
 	cd "${S}"
 
@@ -44,7 +46,7 @@ src_install() {
 	insinto "/usr/share/${PN}"
 	doins -r "Configurations"
 
-	install -Dm 644 -o root "${FILESDIR}/90-${PN}.rules" -t "${D}/usr/lib/udev/rules.d"
+	install -Dm 644 -o root "${S}/99-${LP}.rules" -t "${D}/usr/lib/udev/rules.d"
 	udevadm control --reload
 
 	cd "${FILESDIR}"
