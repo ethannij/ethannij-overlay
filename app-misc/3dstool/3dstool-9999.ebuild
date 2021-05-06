@@ -15,7 +15,6 @@ IUSE=""
 
 DEPEND="
     dev-util/cmake
-    dev-libs/libiconv
 "
 
 src_configure() {
