@@ -15,3 +15,14 @@ I found an interesting project here (https://blog.thepoon.fr/osuLinuxAudioLatenc
 I created an ebuild for gentoo linux that replicates the same process used in the AUR package (https://aur.archlinux.org/packages/wine-osu/).
 
 NOTE: For wine-osu to compile properly on GCC 10, you must add -fcommon to your package.env
+
+`/etc/portage/env/fcommon.conf`
+```
+CFLAGS="${CFLAGS} -fcommon"
+CXXFLAGS="${CXXFLAGS} -fcommon"
+```
+
+`/etc/portage/package.env`
+```
+app-emulation/wine-osu fcommon.conf
+```
